@@ -1102,7 +1102,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const value = getYesNoFromBlock(block);
 
-        if (value === "NO") {
+        if (value === "NO" && block.id !== "cert9") {
           terminateFlowBecauseNo(block);
           return;
         }
@@ -1126,6 +1126,8 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
+
+
 
   function tryOpenRevisionIfPreComplete() {
     if (!allCheckedByBlocks(preBlocks, { cmdbInPre: true })) return false;

@@ -3,6 +3,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const FLOW_URL = "";
 
+  const GRUPOS_RESOLUTORES = [
+    "TEC_TCS_BASE DE DATOS",
+    "TEC_TCS_WINTEL",
+    "TEC_TCS_UNIX",
+    "TEC_TCS_STORAGE AND BACKUP",
+    "TEC_TCS_DLVY_STORAGE",
+    "TEC_TCS_DLVY_BASE DE DATOS",
+    "TEC_TCS_DLVY_WINTEL",
+    "TEC_TCS_DLVY_UNIX",
+    "TEC_TCS_DLVY_BATCH",
+    "TEC_TCS_DLVY_RESPALDOS",
+    "TEC_TCS_DLVY_GESTION_CC",
+    "TEC_TCS_N1_RYR_ICC_BATCH",
+    "TEC_TCS_N1_RYR_ICC_EVENTOS",
+    "TEC_TCS_N1_RYR_ICC_RESPALDOS",
+    "TEC_TCS_N2_RYR_ICC_RESPALDOS"
+  ];
+
   const modeGate = document.getElementById("modeGate");
   const formWrap = document.getElementById("formWrap");
   const btnIniciar = document.getElementById("btnIniciar");
@@ -117,6 +135,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const show = (el) => el && el.classList.remove("hidden");
   const hide = (el) => el && el.classList.add("hidden");
 
+  function getGrupoOptionsHtml(selectedValue = "") {
+    const options = [
+      `<option value="">Seleccione una opción</option>`,
+      ...GRUPOS_RESOLUTORES.map((item) => {
+        const selected = item === selectedValue ? "selected" : "";
+        return `<option value="${item}" ${selected}>${item}</option>`;
+      })
+    ];
+    return options.join("");
+  }
+
+  function createGrupoSelect(name, selectedValue = "") {
+    const select = document.createElement("select");
+    select.name = name;
+    select.innerHTML = getGrupoOptionsHtml(selectedValue);
+    return select;
+  }
+
+  function ensureRowGrupoSelect(row, inputName) {
+    if (!row) return;
+
+    const existingSelect = row.querySelector(`select[name="${inputName}"]`);
+    if (existingSelect) {
+      if (!existingSelect.options.length || existingSelect.options.length < 2) {
+        const currentValue = existingSelect.value || "";
+        existingSelect.innerHTML = getGrupoOptionsHtml(currentValue);
+      }
+      return;
+    }
+
+    const input = row.querySelector(`input[name="${inputName}"]`);
+    if (!input) return;
+
+    const selectedValue = input.value || "";
+    const select = createGrupoSelect(inputName, selectedValue);
+    input.replaceWith(select);
+  }
+
+  function ensureInitialResolverSelects() {
+    getRepeatableRows(certificacionRows).forEach((row) => {
+      ensureRowGrupoSelect(row, "cert_grupo[]");
+    });
+
+    getRepeatableRows(ejecucionRows).forEach((row) => {
+      ensureRowGrupoSelect(row, "ejec_grupo[]");
+    });
+  }
+
   function getEcuadorDateTime() {
     const now = new Date();
 
@@ -211,19 +277,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (type === "cert") {
       row.innerHTML = `
-        <input type="text" name="cert_grupo[]" placeholder="Ej: TEC_TCS_WINTEL">
+        <select name="cert_grupo[]">
+          ${getGrupoOptionsHtml()}
+        </select>
         <button type="button" class="btn-danger remove-row" aria-label="Eliminar fila">✕</button>
       `;
     } else {
       row.innerHTML = `
-        <input type="text" name="ejec_grupo[]" placeholder="Ej: TCS_DLVY_STORAGE">
+        <select name="ejec_grupo[]">
+          ${getGrupoOptionsHtml()}
+        </select>
         <input type="text" name="ejec_personal[]" placeholder="Ej: Nestor Morales">
         <button type="button" class="btn-danger remove-row" aria-label="Eliminar fila">✕</button>
       `;
     }
 
-    row.querySelectorAll("input").forEach((input) => {
-      input.addEventListener("input", refreshSubmitState);
+    row.querySelectorAll("input, select").forEach((field) => {
+      field.addEventListener(field.tagName === "SELECT" ? "change" : "input", refreshSubmitState);
     });
 
     const removeBtn = row.querySelector(".remove-row");
@@ -234,6 +304,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if (rows.length <= 1) {
         row.querySelectorAll("input").forEach((i) => {
           i.value = "";
+        });
+        row.querySelectorAll("select").forEach((s) => {
+          s.value = "";
         });
       } else {
         row.remove();
@@ -270,8 +343,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const addBtn = getAddRowButton(container);
 
     getRepeatableRows(container).forEach((row) => {
-      row.querySelectorAll("input").forEach((input) => {
-        input.addEventListener("input", refreshSubmitState);
+      row.querySelectorAll("input, select").forEach((field) => {
+        field.addEventListener(field.tagName === "SELECT" ? "change" : "input", refreshSubmitState);
       });
 
       const removeBtn = row.querySelector(".remove-row");
@@ -281,6 +354,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (rows.length <= 1) {
           row.querySelectorAll("input").forEach((i) => {
             i.value = "";
+          });
+          row.querySelectorAll("select").forEach((s) => {
+            s.value = "";
           });
         } else {
           row.remove();
@@ -314,6 +390,9 @@ document.addEventListener("DOMContentLoaded", () => {
         row.querySelectorAll("input").forEach((i) => {
           i.value = "";
         });
+        row.querySelectorAll("select").forEach((s) => {
+          s.value = "";
+        });
       } else {
         row.remove();
       }
@@ -325,15 +404,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return rows
       .map((row) => {
-        const inputs = row.querySelectorAll("input");
-
         if (type === "cert") {
-          const grupo = (inputs[0]?.value || "").trim();
+          const grupo = (row.querySelector('select[name="cert_grupo[]"]')?.value || "").trim();
           return { grupo, type };
         }
 
-        const grupo = (inputs[0]?.value || "").trim();
-        const personal = (inputs[1]?.value || "").trim();
+        const grupo = (row.querySelector('select[name="ejec_grupo[]"]')?.value || "").trim();
+        const personal = (row.querySelector('input[name="ejec_personal[]"]')?.value || "").trim();
 
         return { grupo, personal, type };
       })
@@ -349,10 +426,8 @@ document.addEventListener("DOMContentLoaded", () => {
     let validCount = 0;
 
     for (const row of rows) {
-      const inputs = row.querySelectorAll("input");
-
       if (isPers4) {
-        const grupo = (inputs[0]?.value || "").trim();
+        const grupo = (row.querySelector('select[name="cert_grupo[]"]')?.value || "").trim();
 
         if (!grupo) continue;
 
@@ -360,8 +435,8 @@ document.addEventListener("DOMContentLoaded", () => {
         continue;
       }
 
-      const grupo = (inputs[0]?.value || "").trim();
-      const personal = (inputs[1]?.value || "").trim();
+      const grupo = (row.querySelector('select[name="ejec_grupo[]"]')?.value || "").trim();
+      const personal = (row.querySelector('input[name="ejec_personal[]"]')?.value || "").trim();
 
       if (!grupo && !personal) continue;
 
@@ -400,6 +475,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     block.querySelectorAll('input[type="text"]').forEach((i) => {
       i.value = "";
+    });
+
+    block.querySelectorAll("select").forEach((s) => {
+      s.value = "";
     });
 
     block.querySelectorAll("textarea").forEach((t) => {
@@ -715,6 +794,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  ensureInitialResolverSelects();
   initYesNoBlocks();
   setupRepeatableContainer(certificacionRows, "cert");
   setupRepeatableContainer(ejecucionRows, "ejec");
@@ -1557,7 +1637,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const label = block.querySelector("label");
     if (!label) return "";
     const clone = label.cloneNode(true);
-    clone.querySelectorAll("input, button, textarea, .repeatable").forEach((i) => i.remove());
+    clone.querySelectorAll("input, button, textarea, .repeatable, select").forEach((i) => i.remove());
     return safeText(clone.textContent);
   }
 

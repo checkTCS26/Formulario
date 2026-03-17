@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checklist Gestión de Cambios Terceros</title>
+  <link rel="stylesheet" href="./stylesBP.css?v=1" />
+</head>
+
+<body class="tcs-shell">
+  <div class="tcs-card">
+
+    <div class="tcs-titlebar">
+      <h1>CHECKLIST CERTIFICACIÓN/IMPLEMENTACIÓN DE CAMBIOS TERCEROS</h1>
+    </div>
+
+    <div class="tcs-notice">
+      <div class="tcs-notice__icon">📌</div>
+      <div class="tcs-notice__text">
+        <strong>IMPORTANTE:</strong> Complete el formulario <strong>en orden consecutivo.</strong>
+        Seleccione el tipo de gestión antes de iniciar.
+      </div>
+    </div>
+
+    <form id="cambiosForm">
+
+      <!-- =========================
+           PANTALLA INICIAL: TIPO DE GESTIÓN
+      ========================== -->
+      <div id="modeGate">
+        <details class="tcs-accordion accordion" open>
+          <summary class="tcs-accordion__summary">
+            <span>SELECCIÓN DE TIPO DE GESTIÓN</span>
+          </summary>
+
+          <div class="tcs-accordion__content accordion__content">
+            <div class="mensaje tcs-warning">
+              ⚠ Seleccione qué va a gestionar para habilitar el formulario.
+            </div>
+
+            <div class="mode-grid" id="modeOptions">
+
+              <button type="button" class="mode-card" data-mode="CERTIFICACION" aria-pressed="false">
+                <div class="mode-card__title">Certificación</div>
+                <div class="mode-card__desc">
+                  Se habilitan Secciones:
+                  <strong>Revisión de información general del cambio</strong>
+                  y
+                  <strong>Certificación de tareas</strong>
+                </div>
+              </button>
+
+              <button type="button" class="mode-card" data-mode="IMPLEMENTACION" aria-pressed="false">
+                <div class="mode-card__title">Implementación</div>
+                <div class="mode-card__desc">
+                  Se habilitan Secciones:
+                  <strong>Implementación</strong>
+                  y
+                  <strong>Post implementación</strong>
+                </div>
+              </button>
+            </div>
+
+            <div class="tcs-actions" style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap;">
+              <a href="index.html" class="tcs-btn tcs-btn--back"
+                style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
+                <span>ATRAS</span>
+              </a>
+
+              <button type="button" id="btnIniciar" class="tcs-btn tcs-btn--send" disabled>
+                <span>INICIAR</span>
+              </button>
+
+              <button type="button" id="btnCambiarTipo" class="tcs-btn tcs-btn--back hidden">
+                <span>CAMBIAR TIPO</span>
+              </button>
+            </div>
+
+            <input type="hidden" id="selectedMode" value="">
+          </div>
+        </details>
+      </div>
+
+      <!-- =========================
+           CONTENIDO FORM
+      ========================== -->
+      <div id="formWrap" class="hidden">
+
+        <!-- =========================
+     1. INFORMACIÓN GENERAL
+========================== -->
+        <details class="tcs-accordion accordion" id="sec0Details" open>
+          <summary class="tcs-accordion__summary">
+            <span>1. INFORMACIÓN GENERAL</span>
+          </summary>
+
+          <div class="tcs-accordion__content accordion__content">
+
+            <div class="form-group">
+              <label for="nombresCompletos">1. Nombres completos (Apellidos y Nombres):</label>
+              <input type="text" name="nombresCompletos" id="nombresCompletos" required>
+            </div>
+
+            <div class="form-group" id="numeroCambioWrap">
+              <label for="numeroCambio">N° de Control de Cambios:</label>
+              <input type="text" name="numeroCambio" id="numeroCambio" required placeholder="Ej: CHG0123123">
+            </div>
+
+            <div id="q0" class="q-block">
+              <div class="q-text">
+                Confirmo que el nombre y número de control de cambio son correctos
+              </div>
+
+              <div class="yn-group">
+                <label class="yn-option">
+                  <input type="radio" name="q0_answer" value="SI">
+                  <span>SI</span>
+                </label>
+
+                <label class="yn-option">
+                  <input type="radio" name="q0_answer" value="NO">
+                  <span>NO</span>
+                </label>
+              </div>
+            </div>
+
+            <div id="q1" class="q-block hidden" data-q="1">
+              <div class="q-text">
+                1. ¿La descripción del control hace referencia al (los) CI(s) relacionados especificados en el campo <strong>"CI afectados"</strong>?
+              </div>
+
+              <div class="yn-group">
+                <label class="yn-option">
+                  <input type="radio" name="q1_answer" value="SI">
+                  <span>SI</span>
+                </label>
+
+                <label class="yn-option">
+                  <input type="radio" name="q1_answer" value="NO">
+                  <span>NO</span>
+                </label>
+              </div>
+            </div>
+
+            <div id="q2" class="q-block hidden" data-q="2">
+              <div class="q-text">
+                2. ¿La fecha de planificación de inicio/fin del control de cambios es actual o futura?
+
+              </div>
+
+              <div class="yn-group">
+                <label class="yn-option">
+                  <input type="radio" name="q2_answer" value="SI">
+                  <span>SI</span>
+                </label>
+
+                <label class="yn-option">
+                  <input type="radio" name="q2_answer" value="NO">
+                  <span>NO</span>
+                </label>
+              </div>
+            </div>
+
+          </div>
+        </details>
+        <!-- =========================
+             FLUJO CERTIFICACIÓN
+        ========================== -->
+        <div id="certFlow" class="hidden">
+
+
+          <!-- Sección 2 -->
+          <div id="sec2Wrap" class="hidden">
+            <details class="tcs-accordion accordion" id="sec2Details">
+              <summary class="tcs-accordion__summary">
+                <span>2. CERTIFICACIÓN DE TAREAS</span>
+              </summary>
+
+              <div class="tcs-accordion__content accordion__content">
+                <div class="mensaje tcs-warning">
+                  ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                  cuando todos estén respondidos.
+                </div>
+
+                <div id="q8" class="q-block hidden" data-q="8">
+                  <div class="q-text">
+                    1. Verificar si los tiempos de las tareas de su torre y pre requisitos para cumplir las tareas que
+                    están certificando son los adecuadas <strong>(Implementación + Reinicios + Rollback)</strong>, en
+                    caso de no ser
+                    acorde al tiempo requerido, detalle la razón y notifique por SN al dueño del CC y la Certificación
+                    se encuentra "En corrección", hasta que se realice la modificación.
+                  </div>
+                  <div class="yn-group">
+                    <label class="yn-option">
+                      <input type="radio" name="q8_answer" value="SI">
+                      <span>SI</span>
+                    </label>
+                    <label class="yn-option">
+                      <input type="radio" name="q8_answer" value="NO">
+                      <span>NO</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div id="q9" class="q-block hidden" data-q="9">
+                  <div class="q-text">
+                    2. Verificar que las actividades de Implementación que tiene asignado su grupo resolutor, son
+                    correctas, caso contrario notifique por SN al dueño del CC, y la Certificación se cambiarla a "En
+                    corrección", hasta que se realice la modificación del grupo resolutor correcto.
+                  </div>
+                  <div class="yn-group">
+                    <label class="yn-option">
+                      <input type="radio" name="q9_answer" value="SI">
+                      <span>SI</span>
+                    </label>
+                    <label class="yn-option">
+                      <input type="radio" name="q9_answer" value="NO">
+                      <span>NO</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div id="q10" class="q-block hidden" data-q="10">
+                  <div class="q-text">
+                    3. Verificar en base a su experiencia y al alcance del cambio, estén incluidos todos los grupos
+                    resolutores necesarios de infraestructura para la ejecución del mismo. Caso contrario notificar
+                    mediante SN al dueño de control de cambios para que se incorpore la información faltante.
+                  </div>
+                  <div class="yn-group">
+                    <label class="yn-option">
+                      <input type="radio" name="q10_answer" value="SI">
+                      <span>SI</span>
+                    </label>
+                    <label class="yn-option">
+                      <input type="radio" name="q10_answer" value="NO">
+                      <span>NO</span>
+                    </label>
+                  </div>
+                </div>
+
+
+                <div id="q11" class="q-block hidden" data-q="11">
+                  <div class="q-text">
+                    4. ¿Dentro de las actividades a implementarse, se empleará un proceso automático?
+                  </div>
+
+                  <div class="yn-group">
+                    <label class="yn-option">
+                      <input type="radio" name="q11_answer" value="SI">
+                      <span>SI</span>
+                    </label>
+                    <label class="yn-option">
+                      <input type="radio" name="q11_answer" value="NO">
+                      <span>NO</span>
+                    </label>
+                  </div>
+
+                  <!-- Extra cuando responde SI -->
+                  <div id="q11Extra" class="hidden" style="margin-top: 14px;">
+                    <label for="q11Detalle" style="display:block; margin-bottom:8px; font-weight:600;">
+                      Detalle del proceso automático:
+                    </label>
+                    <textarea id="q11Detalle" name="q11_detalle" rows="4"
+                      placeholder="Describa el proceso automático que se empleará"
+                      style="width:100%; resize:vertical;"></textarea>
+
+                    <div style="margin-top: 12px;">
+                      <button type="button" id="btnQ11Continuar" class="tcs-btn tcs-btn--send">
+                        <span>CONTINUAR</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- =========================
+             FLUJO IMPLEMENTACIÓN
+        ========================== -->
+        <div id="implFlow" class="hidden">
+
+          <!-- Sección 2 -->
+          <details class="tcs-accordion accordion" id="sec3Details">
+            <summary class="tcs-accordion__summary">
+              <span>2. IMPLEMENTACIÓN</span>
+            </summary>
+
+            <div class="tcs-accordion__content accordion__content">
+              <div class="mensaje tcs-warning">
+                ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                cuando todos estén respondidos.
+              </div>
+
+              <div id="q12" class="q-block hidden" data-q="12">
+                <div class="q-text">
+                  1. Asegurar que se ejecuten ÚNICAMENTE las tareas del control de cambios. En caso de existir
+                  necesidades/ tareas adicionales no consideradas, solicitar al dueño del cambio gestionar la aprobación
+                  de SMO BP - Control de cambios: Cristina Nejer <strong>(cnejer@pichincha.com)</strong> o Mario Zegarra
+                  <strong>(mszegarr@pichincha.com).</strong>
+                </div>
+                <div class="yn-group">
+                  <label class="yn-option">
+                    <input type="radio" name="q12_answer" value="SI">
+                    <span>SI</span>
+                  </label>
+                  <label class="yn-option">
+                    <input type="radio" name="q12_answer" value="NO">
+                    <span>NO</span>
+                  </label>
+                </div>
+              </div>
+
+
+              <div id="doneImpl" class="mensaje-success hidden">
+                ✅ Sección completada.
+              </div>
+            </div>
+          </details>
+
+          <!-- Sección 3 -->
+          <div id="sec4Wrap" class="hidden">
+            <details class="tcs-accordion accordion" id="sec4Details">
+              <summary class="tcs-accordion__summary">
+                <span>3. POST IMPLEMENTACIÓN</span>
+              </summary>
+
+              <div class="tcs-accordion__content accordion__content">
+                <div class="mensaje tcs-warning">
+                  ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                  cuando todos estén respondidos.
+                </div>
+
+                <div id="q15" class="q-block hidden" data-q="15">
+                  <div class="q-text">
+                    1. Adjuntar evidencias post implementación del control de cambios (antes/después del cambio)
+                  </div>
+                  <div class="yn-group">
+                    <label class="yn-option">
+                      <input type="radio" name="q15_answer" value="SI">
+                      <span>SI</span>
+                    </label>
+                    <label class="yn-option">
+                      <input type="radio" name="q15_answer" value="NO">
+                      <span>NO</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div id="q16" class="q-block hidden" data-q="16">
+                  <div class="q-text">
+                    2. Asegurar que las tareas estén cerradas.
+                  </div>
+                  <div class="yn-group">
+                    <label class="yn-option">
+                      <input type="radio" name="q16_answer" value="SI">
+                      <span>SI</span>
+                    </label>
+                    <label class="yn-option">
+                      <input type="radio" name="q16_answer" value="NO">
+                      <span>NO</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+
+        <!-- MENSAJE FINAL GENERAL -->
+        <div id="flowEndMsg" class="mensaje-success hidden"></div>
+
+        <div id="finalNoteMsg" class="mensaje tcs-warning hidden">
+          <strong>NOTA:</strong> Recuerda descargar este formulario y adjuntarlo en Service Now, dentro del control de
+          cambios.
+        </div>
+
+        <!-- BOTONERA -->
+        <div class="tcs-actions">
+          <button type="reset" class="tcs-btn tcs-btn--back" id="btnReset">
+            <span class="tcs-btn__icon">↺</span>
+            <span>ATRAS</span>
+          </button>
+
+          <button type="button" class="tcs-btn tcs-btn--send" id="btnPdf">
+            <span>DESCARGAR PDF</span>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+  <script src="./scriptTerceros.js?v=1"></script>
+</body>
+
+</html>

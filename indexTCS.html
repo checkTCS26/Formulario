@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checklist Gestión de Cambios TCS</title>
+    <link rel="stylesheet" href="./stylesTCS.css?v=1" />
+</head>
+
+<body class="tcs-shell">
+    <div class="tcs-card">
+
+        <div class="tcs-titlebar">
+            <h1>CHECKLIST CERTIFICACIÓN/IMPLEMENTACIÓN DE CAMBIOS TCS</h1>
+        </div>
+
+        <div class="tcs-notice">
+            <div class="tcs-notice__icon">📌</div>
+            <div class="tcs-notice__text">
+                <strong>IMPORTANTE:</strong> Complete el formulario <strong>en orden consecutivo.</strong>
+                Seleccione el tipo de gestión antes de iniciar.
+            </div>
+        </div>
+
+        <form id="cambiosForm">
+
+            <div id="modeGate">
+                <details class="tcs-accordion accordion" open>
+                    <summary class="tcs-accordion__summary">
+                        <span>SELECCIÓN DE TIPO DE GESTIÓN</span>
+                    </summary>
+
+                    <div class="tcs-accordion__content accordion__content">
+                        <div class="mensaje tcs-warning">
+                            ⚠ Seleccione qué va a gestionar para habilitar el formulario.
+                        </div>
+
+                        <div class="mode-grid" id="modeOptions">
+                            <button type="button" class="mode-card" data-mode="CERTIFICACION" aria-pressed="false">
+                                <div class="mode-card__title">Certificación</div>
+                                <div class="mode-card__desc">
+                                    Se habilitan secciones: <strong>Pre requisitos</strong>, <strong>Revisión
+                                        general</strong>,
+                                    <strong>Certificación de tareas</strong> y <strong>Personal asignado</strong>.
+                                </div>
+                            </button>
+
+                            <button type="button" class="mode-card" data-mode="IMPLEMENTACION" aria-pressed="false">
+                                <div class="mode-card__title">Implementación</div>
+                                <div class="mode-card__desc">
+                                    Se habilitan secciones: <strong>Implementación</strong> y <strong>Post
+                                        implementación</strong>.
+                                </div>
+                            </button>
+                        </div>
+
+                        <div class="tcs-actions" style="margin-top:14px; display:flex; gap:12px; flex-wrap:wrap;">
+                            <a href="index.html" class="tcs-btn tcs-btn--back"
+                                style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
+                                <span>ATRAS</span>
+                            </a>
+
+                            <button type="button" id="btnIniciar" class="tcs-btn tcs-btn--send" disabled>
+                                <span>INICIAR</span>
+                            </button>
+
+                            <button type="button" id="btnCambiarTipo" class="tcs-btn tcs-btn--back hidden">
+                                <span>CAMBIAR TIPO</span>
+                            </button>
+                        </div>
+
+                        <input type="hidden" id="selectedMode" value="">
+                    </div>
+                </details>
+            </div>
+
+            <div id="formWrap" class="hidden">
+
+                <!-- 1. INFORMACIÓN GENERAL -->
+                <details class="tcs-accordion accordion" id="secInfoDetails" open>
+                    <summary class="tcs-accordion__summary">
+                        <span>1. INFORMACIÓN GENERAL</span>
+                    </summary>
+
+                    <div class="tcs-accordion__content accordion__content">
+                        <div class="form-group">
+                            <label>1. Nombres completos (Apellidos y Nombres):</label>
+                            <input type="text" name="nombresCompletos" id="nombresCompletos" required>
+                        </div>
+
+                        <div class="form-group" id="numeroCambioWrap">
+                            <label>2. N° de Control de Cambios:</label>
+                            <input type="text" name="numeroCambio" id="numeroCambio" required
+                                placeholder="Ej: CHG0123123">
+                        </div>
+
+                        <div id="qInfoConfirm" class="q-block q-yn">
+                            <div class="q-text">3. Confirmo que el nombre y número de control de cambio son correctos
+                            </div>
+                            <div class="yn-group">
+                                <label class="yn-option yn-option--si">
+                                    <input type="radio" name="infoConfirm" value="SI" class="yn-radio">
+                                    <span>SI</span>
+                                </label>
+
+                                <label class="yn-option yn-option--no">
+                                    <input type="radio" name="infoConfirm" value="NO" class="yn-radio">
+                                    <span>NO</span>
+                                </label>
+                            </div>
+                            <input type="checkbox" class="q-check yn-done" id="infoConfirm" style="display:none;">
+                        </div>
+
+                        <div id="doneInfo" class="mensaje-success hidden">
+                            ✅ Sección completada.
+                        </div>
+                    </div>
+                </details>
+
+                <!-- FLUJO CERTIFICACIÓN -->
+                <div id="certFlow" class="hidden">
+
+                    <!-- 2. PRE REQUISITOS -->
+                    <details class="tcs-accordion accordion" id="secPreDetails">
+                        <summary class="tcs-accordion__summary">
+                            <span>2. PRE REQUISITOS GESTIÓN DE CAMBIOS TCS</span>
+                        </summary>
+
+                        <div class="tcs-accordion__content accordion__content">
+                            <div class="mensaje tcs-warning">
+                                ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                                cuando todos estén respondidos.
+                            </div>
+
+                            <div class="q-block q-yn hidden" id="pre1">
+                                <div class="q-text">1. ¿Cuenta con autorización del coordinador de infraestructura TCS?
+                                </div>
+                                <div class="yn-group">
+                                    <label class="yn-option yn-option--si">
+                                        <input type="radio" name="pre_aut_coord_resp" value="SI" class="yn-radio">
+                                        <span>SI</span>
+                                    </label>
+                                    <label class="yn-option yn-option--no">
+                                        <input type="radio" name="pre_aut_coord_resp" value="NO" class="yn-radio">
+                                        <span>NO</span>
+                                    </label>
+                                </div>
+                                <input class="q-check yn-done" type="checkbox" id="pre_aut_coord" style="display:none;">
+                            </div>
+
+                            <div class="q-block q-yn hidden" id="pre2">
+                                <div class="q-text">2. ¿Cuenta con autorización de la contraparte en Banco?</div>
+                                <div class="yn-group">
+                                    <label class="yn-option yn-option--si">
+                                        <input type="radio" name="pre_aut_banco_resp" value="SI" class="yn-radio">
+                                        <span>SI</span>
+                                    </label>
+                                    <label class="yn-option yn-option--no">
+                                        <input type="radio" name="pre_aut_banco_resp" value="NO" class="yn-radio">
+                                        <span>NO</span>
+                                    </label>
+                                </div>
+                                <input class="q-check yn-done" type="checkbox" id="pre_aut_banco" style="display:none;">
+                            </div>
+
+                            <div class="q-block q-yn hidden" id="pre3">
+                                <div class="q-text">3. ¿Adjuntó la matriz de infraestructura?</div>
+                                <div class="yn-group">
+                                    <label class="yn-option yn-option--si">
+                                        <input type="radio" name="pre_matriz_infra_resp" value="SI" class="yn-radio">
+                                        <span>SI</span>
+                                    </label>
+                                    <label class="yn-option yn-option--no">
+                                        <input type="radio" name="pre_matriz_infra_resp" value="NO" class="yn-radio">
+                                        <span>NO</span>
+                                    </label>
+                                </div>
+                                <input class="q-check yn-done" type="checkbox" id="pre_matriz_infra"
+                                    style="display:none;">
+                            </div>
+
+                            <div class="q-block hidden" id="pre4">
+                                <div style="display:flex; flex-direction:column; gap:10px;">
+                                    <div style="font-weight:400; color:#0B1B2B;">
+                                        4. ¿Aplica Matriz de CMDB?
+                                    </div>
+
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si">
+                                            <input type="radio" name="cmdb_aplica" value="SI">
+                                            <span>SI</span>
+                                        </label>
+
+                                        <label class="yn-option yn-option--no">
+                                            <input type="radio" name="cmdb_aplica" value="NA">
+                                            <span>N/A</span>
+                                        </label>
+                                    </div>
+
+                                    <div id="cmdbReasonWrap" class="hidden">
+                                        <label for="cmdbReason">Si eligió N/A, especifique el porqué:</label>
+                                        <textarea id="cmdbReason" name="cmdbReason"
+                                            placeholder="Detalle el motivo..."></textarea>
+
+                                        <div style="display:flex; gap:10px; margin-top:10px; justify-content:flex-end;">
+                                            <button type="button" id="btnCmdbNext" class="tcs-btn tcs-btn--send"
+                                                disabled>
+                                                <span>CONTINUAR</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="donePre" class="mensaje-success hidden">
+                                ✅ Sección completada.
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- 3. REVISIÓN GENERAL -->
+                    <div id="secRevWrap" class="hidden">
+                        <details class="tcs-accordion accordion" id="secRevDetails">
+                            <summary class="tcs-accordion__summary">
+                                <span>3. REVISIÓN GENERAL DEL CAMBIO</span>
+                            </summary>
+
+                            <div class="tcs-accordion__content accordion__content">
+                                <div class="mensaje tcs-warning">
+                                    ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                                    cuando todos estén respondidos.
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">1. Verificar el entorno del control de cambios a implementar.
+                                    </div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="rev1" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="rev1" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done revCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">2. Si el cambio es para entorno Productivo, verificar que tenga
+                                        un control de cambios de test válido, y que haga coherencia con el control de
+                                        producción.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="rev2" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="rev2" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done revCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">3. Verificar que el CI corresponde al entorno elegido del
+                                        control de cambio.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="rev3" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="rev3" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done revCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">4. Verificar que el proveedor de servicio del control sea el
+                                        correcto (TCS o BP si aplica).</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="rev4" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="rev4" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done revCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">5. Asegurar que la descripción del control cuenta con el formato
+                                        TCS: Actividad + Componente(s) afectado(s) + Aplicación(es) afectada(s).</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="rev5" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="rev5" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done revCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">6. Verificar que la fecha de planificación de inicio/fin del
+                                        control de cambios, sea futura.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="rev6" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="rev6" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done revCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div id="doneRev" class="mensaje-success hidden">
+                                    ✅ Sección completada.
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- 4. CERTIFICACIÓN DE TAREAS -->
+                    <div id="secCertWrap" class="hidden">
+                        <details class="tcs-accordion accordion" id="secCertDetails">
+                            <summary class="tcs-accordion__summary">
+                                <span>4. CERTIFICACIÓN DE TAREAS</span>
+                            </summary>
+
+                            <div class="tcs-accordion__content accordion__content">
+                                <div class="mensaje tcs-warning">
+                                    ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                                    cuando todos estén respondidos.
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">1. Verificar si las fechas/horarios de despliegue de
+                                        actividades/tareas están dentro de la ventana de trabajo del control de cambios.
+                                        En caso de que no se encuentren en la ventana, notificar al dueño del CC para
+                                        que realice la modificación de fechas/horarios requerida para el despliegue.
+                                    </div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="cert1" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="cert1" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done certCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">2. Verificar si los tiempos de las tareas que está certificando
+                                        son los adecuados, en caso de NO estar acorde, notifique al dueño del CC para
+                                        que se realice la modificación y coloque la tarea "En corrección".</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="cert2" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="cert2" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done certCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">3. Verificar que las actividades de Implementación tiene
+                                        asignado el grupo resolutor correcto, caso contrario notifique al dueño del CC
+                                        para que realice la modificación del grupo resolutor correcto y coloque la tarea
+                                        "En corrección".</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="cert3" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="cert3" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done certCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">4. Verificar que el tiempo de ejecución de las actividades de
+                                        "Roll back" es el adecuado, caso contrario notifique al dueño del CC para que
+                                        actualice el tiempo recomendado y coloque la tarea "En corrección".</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="cert4" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="cert4" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done certCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">5. Verificar en base a su experiencia si están incluidos todos
+                                        los grupos resolutores requeridos para cubrir el alcance de infraestructura
+                                        dentro del control de cambios. Caso contrario notificar al dueño del control de
+                                        cambios para que se incorpore la información faltante.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="cert5" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="cert5" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done certCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">6. Verificar que las actividades de implementación tienen
+                                        asignado los grupos resolutores correctos (Observabilidad, otra torre, célula,
+                                        Command Center, etc).</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="cert6" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="cert6" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done certCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">7. Verificar que si existe reinicio de un componente, esté
+                                        especificado en las tareas de cambios.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="cert7" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="cert7" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done certCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">8. Se gestionaron ventanas de mantenimiento en Dynatrace (si
+                                        aplica).</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="cert8" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="cert8" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done certCheck" type="checkbox" style="display:none;">
+                                </div>
+
+                                <div class="q-block hidden" id="cert9">
+                                    <input class="q-check" type="checkbox" id="cert9_done" style="display:none;">
+
+                                    <div class="q-text">9. ¿Dentro de las actividades a implementarse, se empleará un
+                                        proceso automático?</div>
+
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si">
+                                            <input type="radio" name="cert9_resp" value="SI">
+                                            <span>SI</span>
+                                        </label>
+
+                                        <label class="yn-option yn-option--no">
+                                            <input type="radio" name="cert9_resp" value="NO">
+                                            <span>NO</span>
+                                        </label>
+                                    </div>
+
+                                    <div id="cert9_si_wrap" class="hidden" style="margin-top:10px;">
+                                        <label for="cert9_detalle"
+                                            style="display:block; font-weight:600; margin-bottom:8px;">
+                                            Especifique el proceso automático a emplearse:
+                                        </label>
+
+                                        <textarea id="cert9_detalle" name="cert9_detalle" rows="3"
+                                            placeholder="Detalle el proceso automático..."
+                                            style="width:100%; resize:vertical;"></textarea>
+
+                                        <div style="display:flex; gap:10px; margin-top:10px; justify-content:flex-end;">
+                                            <button type="button" id="btnCert9Next" class="tcs-btn tcs-btn--send">
+                                                <span>CONTINUAR</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="doneCert" class="mensaje-success hidden">
+                                    ✅ Sección completada.
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- 5. PERSONAL ASIGNADO -->
+                    <div id="secPersWrap" class="hidden">
+                        <details class="tcs-accordion accordion" id="secPersDetails">
+                            <summary class="tcs-accordion__summary">
+                                <span>5. PERSONAL ASIGNADO</span>
+                            </summary>
+
+                            <div class="tcs-accordion__content accordion__content">
+                                <div class="mensaje tcs-warning">
+                                    ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                                    cuando todos estén respondidos.
+                                </div>
+
+
+                                <div class="q-block hidden" id="pers4">
+
+                                    <input class="q-check" type="checkbox" id="pers4_done" style="display:none;">
+
+                                    <label>
+                                        1. Escoger el nombre del grupo resolutor asignado para Certificación de tareas
+                                        TCS
+                                    </label>
+
+                                    <br><br>
+
+                                    <div class="repeatable" id="certificacionRows">
+
+                                        <div class="row-grid header">
+                                            <div>Grupo resolutor</div>
+                                            <div></div>
+                                        </div>
+
+                                        <div class="row-grid row">
+                                            <input type="text" name="cert_grupo[]" placeholder="Ej: TEC_TCS_WINTEL">
+                                            <button type="button" class="btn-danger remove-row">✕</button>
+                                        </div>
+
+                                        <button type="button" class="btn-secondary add-row-btn">
+                                            + Agregar fila
+                                        </button>
+
+                                    </div>
+
+                                    <br>
+
+                                    <div style="display:flex; justify-content:flex-end;">
+                                        <button type="button" id="btnPers4Next" class="tcs-btn tcs-btn--send">
+                                            CONTINUAR
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <br>
+
+                                <div class="q-block hidden" id="pers5">
+
+                                    <input class="q-check" type="checkbox" id="pers5_done" style="display:none;">
+
+                                    <label>
+                                        2. Escoger el nombre del grupo resolutor y personal asignado para Ejecución de
+                                        tareas TCS
+                                    </label>
+
+                                    <br><br>
+
+                                    <div class="repeatable" id="ejecucionRows">
+
+                                        <div class="row-grid header">
+                                            <div>Grupo resolutor</div>
+                                            <div>Personal asignado</div>
+                                            <div></div>
+                                        </div>
+
+                                        <div class="row-grid row">
+                                            <input type="text" name="ejec_grupo[]" placeholder="Ej: TCS_DLVY_STORAGE">
+                                            <input type="text" name="ejec_personal[]" placeholder="Ej: Nestor Morales">
+                                            <button type="button" class="btn-danger remove-row">✕</button>
+                                        </div>
+
+                                        <button type="button" class="btn-secondary add-row-btn">
+                                            + Agregar fila
+                                        </button>
+
+                                    </div>
+
+                                    <br>
+
+                                    <div style="display:flex; justify-content:flex-end;">
+                                        <button type="button" id="btnPers5Next" class="tcs-btn tcs-btn--send">
+                                            CONTINUAR
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                                <div class="q-block q-yn hidden">
+                                    <div class="q-text">3. Asegurar que las actividades y tareas contempladas, cumplan
+                                        con el detalle técnico requerido para cubrir el alcance del control.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                                name="pers3" value="SI"><span>SI</span></label>
+                                        <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                                name="pers3" value="NO"><span>NO</span></label>
+                                    </div>
+                                    <input class="q-check yn-done persCheck" type="checkbox" style="display:none;">
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                </div>
+
+                <!-- FLUJO IMPLEMENTACIÓN -->
+                <div id="implFlow" class="hidden">
+
+                    <!-- 2. IMPLEMENTACIÓN -->
+                    <details class="tcs-accordion accordion" id="secImplDetails">
+                        <summary class="tcs-accordion__summary">
+                            <span>2. IMPLEMENTACIÓN</span>
+                        </summary>
+
+                        <div class="tcs-accordion__content accordion__content">
+                            <div class="mensaje tcs-warning">
+                                ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                                cuando todos estén respondidos.
+                            </div>
+
+                            <div class="q-block q-yn hidden">
+                                <div class="q-text">1. Coordinar el despliegue de una sala Teams para que el personal
+                                    técnico asignado para ejecución se encuentre presente (si aplica).</div>
+                                <div class="yn-group">
+                                    <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                            name="impl1" value="SI"><span>SI</span></label>
+                                    <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                            name="impl1" value="NO"><span>NO</span></label>
+                                </div>
+                                <input class="q-check yn-done implCheck" type="checkbox" style="display:none;">
+                            </div>
+
+                            <div class="q-block q-yn hidden">
+                                <div class="q-text">2. Levantar la línea base previa ejecución del control de cambios
+                                    <strong>(Considerar además monitoreo Dynatrace sobre CIs a afectarse).</strong>
+                                </div>
+                                <div class="yn-group">
+                                    <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                            name="impl2" value="SI"><span>SI</span></label>
+                                    <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                            name="impl2" value="NO"><span>NO</span></label>
+                                </div>
+                                <input class="q-check yn-done implCheck" type="checkbox" style="display:none;">
+                            </div>
+
+                            <div class="q-block q-yn hidden">
+                                <div class="q-text">3. Adjuntar la evidencia de la línea base levantada al control de
+                                    cambios.</div>
+                                <div class="yn-group">
+                                    <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                            name="impl3" value="SI"><span>SI</span></label>
+                                    <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                            name="impl3" value="NO"><span>NO</span></label>
+                                </div>
+                                <input class="q-check yn-done implCheck" type="checkbox" style="display:none;">
+                            </div>
+
+                            <div class="q-block q-yn hidden">
+                                <div class="q-text">4. Asegurar que se ejecuten <strong>ÚNICAMENTE</strong> las tareas
+                                    del control de
+                                    cambios. En caso de existir necesidades/tareas adicionales no consideradas,
+                                    gestionar la aprobación de SMO BP - Control de cambios: Cristina Nejer
+                                    <strong>(cnejer@pichincha.com)</strong> o Mario Zegarra
+                                    <strong>(mszegarr@pichincha.com).</strong>
+                                </div>
+                                <div class="yn-group">
+                                    <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                            name="impl4" value="SI"><span>SI</span></label>
+                                    <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                            name="impl4" value="NO"><span>NO</span></label>
+                                </div>
+                                <input class="q-check yn-done implCheck" type="checkbox" style="display:none;">
+                            </div>
+
+                            <div class="q-block q-yn hidden">
+                                <div class="q-text">5. En caso de que existieran novedades durante la implementación,
+                                    seguir el proceso definido de notificación interna de TCS.</div>
+                                <div class="yn-group">
+                                    <label class="yn-option yn-option--si"><input class="yn-radio" type="radio"
+                                            name="impl5" value="SI"><span>SI</span></label>
+                                    <label class="yn-option yn-option--no"><input class="yn-radio" type="radio"
+                                            name="impl5" value="NO"><span>NO</span></label>
+                                </div>
+                                <input class="q-check yn-done implCheck" type="checkbox" style="display:none;">
+                            </div>
+
+                            <div id="doneImpl" class="mensaje-success hidden">
+                                ✅ Sección completada.
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- 3. POST IMPLEMENTACIÓN -->
+                    <div id="secPostWrap" class="hidden">
+                        <details class="tcs-accordion accordion" id="secPostDetails">
+                            <summary class="tcs-accordion__summary">
+                                <span>3. POST IMPLEMENTACIÓN</span>
+                            </summary>
+
+                            <div class="tcs-accordion__content accordion__content">
+                                <div class="mensaje tcs-warning">
+                                    ⚠ Complete todos los ítems. El formulario se considerará finalizado únicamente
+                                    cuando todos estén respondidos.
+                                </div>
+
+                                <div class="q-block q-yn hidden" id="post1">
+                                    <div class="q-text">1. Confirmar que el estado de salud de los componentes afectados
+                                        no se ha visto impactado luego de la ejecución del control de cambios.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si">
+                                            <input class="yn-radio" type="radio" name="post1_resp" value="SI">
+                                            <span>SI</span>
+                                        </label>
+                                        <label class="yn-option yn-option--no">
+                                            <input class="yn-radio" type="radio" name="post1_resp" value="NO">
+                                            <span>NO</span>
+                                        </label>
+                                    </div>
+                                    <input class="q-check yn-done postCheck" type="checkbox" id="post1_check"
+                                        style="display:none;">
+                                </div>
+
+
+
+                                <div class="q-block hidden" id="post2">
+                                    <input class="q-check" type="checkbox" id="post2_done" style="display:none">
+
+                                    <div style="font-weight:400; color:#0B1B2B; margin-bottom:10px;">
+                                        2. ¿Se realizaron pruebas funcionales como parte del plan de pruebas post
+                                        implementación?
+                                    </div>
+
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si">
+                                            <input type="radio" name="post2_resp" value="SI">
+                                            <span>SI</span>
+                                        </label>
+
+                                        <label class="yn-option yn-option--no">
+                                            <input type="radio" name="post2_resp" value="NO">
+                                            <span>NO</span>
+                                        </label>
+                                    </div>
+
+                                    <!-- Aparece solo cuando se responde NO -->
+                                    <div id="post2_extra" class="hidden" style="margin-top:14px;">
+                                        <label for="post2_comment"
+                                            style="display:block; margin-bottom:8px; color:#0B1B2B;">
+                                            Escriba el motivo:
+                                        </label>
+
+                                        <textarea id="post2_comment" rows="4" placeholder="Detalle aquí el motivo..."
+                                            style="width:100%; padding:10px; border:1px solid #D0D7DE; border-radius:8px; resize:vertical; box-sizing:border-box;"></textarea>
+
+                                        <div style="margin-top:12px;">
+                                            <button type="button" id="btnPost2Finish"
+                                                style="padding:10px 16px; background:#0B1B2B; color:#fff; border:none; border-radius:8px; cursor:pointer;">
+                                                Finalizar formulario
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                                <div class="q-block hidden" id="post3">
+                                    <input class="q-check" type="checkbox" id="post3_done" style="display:none">
+
+                                    <div id="post3_si" class="hidden" style="margin-top:10px;">
+                                        <label style="display:block; font-weight:400; margin-bottom:8px;">
+                                            3. Detallar de forma general las pruebas funcionales realizadas (Qué equipo
+                                            / tipo de pruebas).
+                                        </label>
+
+                                        <textarea id="post3_detalle" rows="3" placeholder="Escriba el detalle..."
+                                            style="width:100%; resize:vertical;"></textarea>
+
+                                        <div style="display:flex; gap:10px; margin-top:10px; justify-content:flex-end;">
+                                            <button type="button" id="btnPost3Si" class="tcs-btn tcs-btn--send">
+                                                <span>CONTINUAR</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div id="post3_no" class="hidden" style="margin-top:10px;">
+                                        <label style="display:block; font-weight:600; margin-bottom:8px;">
+                                            3. Justificar
+                                        </label>
+
+                                        <textarea id="post3_justificacion" rows="3"
+                                            placeholder="Escriba la justificación..."
+                                            style="width:100%; resize:vertical;"></textarea>
+
+                                        <div style="display:flex; gap:10px; margin-top:10px; justify-content:flex-end;">
+                                            <button type="button" id="btnPost3No" class="tcs-btn tcs-btn--send">
+                                                <span>CONTINUAR</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="q-block q-yn hidden" id="post4">
+                                    <div class="q-text">4. Adjuntar al control de cambios la evidencia de pruebas
+                                        funcionales realizadas.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si">
+                                            <input class="yn-radio" type="radio" name="post4_resp" value="SI">
+                                            <span>SI</span>
+                                        </label>
+                                        <label class="yn-option yn-option--no">
+                                            <input class="yn-radio" type="radio" name="post4_resp" value="NO">
+                                            <span>NO</span>
+                                        </label>
+                                    </div>
+                                    <input class="q-check yn-done postCheck" type="checkbox" id="post4_check"
+                                        style="display:none;">
+                                </div>
+
+                                <div class="q-block q-yn hidden" id="post5">
+                                    <div class="q-text">5. Asegurar que todas las tareas fueron cerradas en el control
+                                        de cambios.</div>
+                                    <div class="yn-group">
+                                        <label class="yn-option yn-option--si">
+                                            <input class="yn-radio" type="radio" name="post5_resp" value="SI">
+                                            <span>SI</span>
+                                        </label>
+                                        <label class="yn-option yn-option--no">
+                                            <input class="yn-radio" type="radio" name="post5_resp" value="NO">
+                                            <span>NO</span>
+                                        </label>
+                                    </div>
+                                    <input class="q-check yn-done postCheck" type="checkbox" id="post5_check"
+                                        style="display:none;">
+                                </div>
+
+                                <div id="donePost" class="mensaje-success hidden">
+                                    ✅ Seccion completada.
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                </div>
+
+                <div id="doneFinal" class="mensaje-success hidden">
+                    ✅ Formulario completado. Ya puede <strong>DESCARGAR PDF</strong>.
+                </div>
+
+                <div id="finalNote" class="mensaje tcs-warning hidden" style="margin-top:16px;">
+                    <strong>NOTA:</strong> Recuerda descargar este formulario y adjuntarlo en Service Now, dentro del
+                    control de cambios.
+                </div>
+
+                <div class="tcs-actions">
+                    <button type="reset" class="tcs-btn tcs-btn--back" id="btnReset">
+                        <span class="tcs-btn__icon">↺</span>
+                        <span>ATRAS</span>
+                    </button>
+
+                    <button type="button" class="tcs-btn tcs-btn--send" id="btnPdf">
+                        <span>DESCARGAR PDF</span>
+                    </button>
+                </div>
+
+
+
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="./scriptTCS.js?v=2"></script>
+</body>
+
+</html>

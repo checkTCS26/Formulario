@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selecciona un Checklist</title>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body{
+      background: #f3f6fb;
+      font-family: Arial, sans-serif;
+    }
+
+    .container{
+      max-width: 980px;
+      margin: 40px auto;
+      padding: 28px;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.10);
+    }
+
+    h1{
+      background:#0B1B2B;
+      color: #FFFFFF;
+      text-align: center;
+      padding: 22px 18px;
+      border-radius: 14px;
+      font-size: 40px;
+      letter-spacing: .5px;
+    }
+
+    .cards{
+      display:flex;
+      flex-wrap:wrap;
+      gap: 28px;
+      justify-content:center;
+      margin-top: 34px;
+    }
+
+    /* ============================================================
+       UNA SOLA CLASE PRINCIPAL PARA LA TARJETA: .flip-card
+       - Cambias el color con data-theme="bp" o "tcs"
+       - Deshabilitas con data-disabled="true"
+    ============================================================ */
+    .flip-card{
+      width: 360px;
+      height: 220px;
+      position: relative;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+      border-radius: 16px;
+    }
+
+    .flip-card > .front,
+    .flip-card > .back{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0; left: 0;
+
+      border-radius: 16px;
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden; /* Safari */
+
+      transform-style: preserve-3d;
+      transition: transform .7s cubic-bezier(0.4, 0.2, 0.2, 1);
+
+      color: #fff;
+    }
+
+    /* posiciones base */
+    .flip-card > .front{ transform: rotateY(0deg); }
+    .flip-card > .back{ transform: rotateY(180deg); }
+
+    /* PC: hover */
+    .flip-card:hover > .front { transform: rotateY(-180deg); }
+    .flip-card:hover > .back  { transform: rotateY(0deg); }
+
+    /* Móvil: tap (JS agrega .is-flipped) */
+    .flip-card.is-flipped > .front{ transform: rotateY(-180deg); }
+    .flip-card.is-flipped > .back { transform: rotateY(0deg); }
+
+    /* contenido */
+    .flip-card .content{
+      height: 100%;
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+
+      transform: translateZ(55px);
+    }
+
+    .flip-card .title{
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .flip-card .divider{
+      width: 90px;
+      height: 2px;
+      border: none;
+      background: rgba(255,255,255,.75);
+    }
+
+    .flip-card .subtitle{
+      font-size: 16px;
+      opacity: 0.95;
+      line-height: 1.3;
+    }
+
+    .flip-card .btn{
+      margin-top: 12px;
+      width: fit-content;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .flip-card .btn-open{
+      background: rgba(255,255,255,0.95);
+      color: #0b1b2b;
+    }
+
+    .flip-card .btn-open:hover{
+      transform: translateY(-1px);
+    }
+
+    .flip-card[data-disabled="true"]{
+      opacity: .92;
+      cursor: not-allowed;
+    }
+
+    .flip-card[data-disabled="true"] .btn{
+      background: rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.95);
+      cursor: not-allowed;
+    }
+
+    /* Tema BP */
+    .flip-card[data-theme="bp"] > .front{
+      background: linear-gradient(135deg, #7DD3FC, #38BDF8);
+    }
+    .flip-card[data-theme="bp"] > .back{
+      background: linear-gradient(135deg, #162e46,#0B1B2B);
+    }
+
+    /* Tema TCS */
+    .flip-card[data-theme="tcs"] > .front{
+      background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+    }
+    .flip-card[data-theme="tcs"] > .back{
+      background: linear-gradient(135deg, #162e46,#0B1B2B);
+    }
+
+    @media (max-width: 820px){
+      .flip-card{ width: 92vw; max-width: 420px; }
+      h1{ font-size: 30px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>SELECCIONA UN CHECKLIST</h1>
+
+    <div class="cards">
+
+      <!-- BP -->
+      <div class="flip-card" data-theme="bp" data-href="indexBP.html" aria-label="Checklist BP">
+        <div class="front">
+          <div class="content">
+            <div class="title">CHECKLIST CERTIFICACIÓN DE TAREAS TCS</div>
+            <hr class="divider">
+            <div class="subtitle">¿Listo para continuar?</div>
+          </div>
+        </div>
+
+        <div class="back">
+          <div class="content">
+             <div class="title">CHECKLIST</div>
+            <hr class="divider">
+            <div class="subtitle">Presiona el botón para abrir el checklist.</div>
+
+            <button type="button" class="btn btn-open">Abrir formulario</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TCS -->
+      <div class="flip-card" data-theme="tcs" data-href="indexTCS.html" aria-label="Checklist TCS">
+        <div class="front">
+          <div class="content">
+            <div class="title">CHECKLIST CC TCS</div>
+            <hr class="divider">
+            <div class="subtitle">¿Listo para continuar?</div>
+          </div>
+        </div>
+
+        <div class="back">
+          <div class="content">
+            <div class="title">CHECKLIST</div>
+            <hr class="divider">
+            <div class="subtitle">Presiona el botón para abrir el checklist.</div>
+
+            <button type="button" class="btn btn-open">Abrir formulario</button>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // PC: hover ya funciona por CSS
+    // Móvil: tap -> gira / botón -> abre (solo si no está disabled)
+    // ============================================================
+
+    document.querySelectorAll(".flip-card").forEach((card) => {
+      const disabled = card.dataset.disabled === "true";
+      const href = card.dataset.href;
+
+      // Tap en la tarjeta (si no fue un botón) -> girar
+      card.addEventListener("click", (e) => {
+        if (e.target.closest("button")) return; // si tocó botón, no girar aquí
+
+        // En móvil: toggle flip (en PC igual sirve si quieres click)
+        card.classList.toggle("is-flipped");
+      });
+
+      // Botón "Abrir" -> navegar (solo BP)
+      card.querySelectorAll(".btn-open").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.stopPropagation(); // que no dispare el flip
+          if (disabled) return;
+          if (href) window.location.href = href;
+        });
+      });
+    });
+
+    // Click/tap fuera -> cerrar tarjetas giradas
+    document.addEventListener("click", (e) => {
+      document.querySelectorAll(".flip-card.is-flipped").forEach((card) => {
+        if (!card.contains(e.target)) card.classList.remove("is-flipped");
+      });
+    });
+  </script>
+</body>
+</html>

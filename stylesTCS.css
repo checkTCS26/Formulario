@@ -1,0 +1,734 @@
+.tcs-shell {
+  /* ===== Paleta Azul/Celeste ===== */
+  --tcs-ink: #071428;
+  /* texto principal */
+  --tcs-muted: #4B5B73;
+  /* texto secundario */
+  --tcs-line: rgba(7, 20, 40, .10);
+
+  --tcs-blue-1: #0B5FFF;
+  /* azul principal */
+  --tcs-blue-2: #33B6FF;
+  /* celeste */
+  --tcs-blue-3: #A7E6FF;
+  /* celeste suave */
+  --tcs-navy: #071E3A;
+  /* azul profundo */
+
+  --tcs-bg1: #F5FAFF;
+  /* fondo alto */
+  --tcs-bg2: #EEF6FF;
+  /* fondo bajo */
+  --tcs-card: #FFFFFF;
+
+  --tcs-shadow: 0 18px 42px rgba(7, 20, 40, .10);
+  --tcs-shadow2: 0 10px 20px rgba(7, 20, 40, .08);
+
+  font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+  color: var(--tcs-ink);
+
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 48px 16px;
+
+  /* Fondo con textura suave */
+  background:
+    radial-gradient(900px 500px at 15% 10%, rgba(51, 182, 255, .18), transparent 60%),
+    radial-gradient(800px 420px at 85% 25%, rgba(11, 95, 255, .14), transparent 55%),
+    linear-gradient(180deg, var(--tcs-bg1), var(--tcs-bg2));
+}
+
+.tcs-shell * {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   Tarjeta principal
+========================================================= */
+.tcs-card {
+  width: min(980px, 100%);
+  background: rgba(255, 255, 255, .92);
+  border-radius: 22px;
+  box-shadow: var(--tcs-shadow);
+  padding: 22px 22px 26px;
+  border: 1px solid rgba(7, 20, 40, .10);
+  backdrop-filter: blur(10px);
+}
+
+/* =========================================================
+   Barra título (azul/celeste)
+========================================================= */
+.tcs-titlebar {
+  margin-top: 14px;
+  background:
+    linear-gradient(135deg, rgba(11, 95, 255, 1), rgba(51, 182, 255, 1));
+  border-radius: 14px;
+  padding: 18px 16px;
+  box-shadow: 0 14px 28px rgba(11, 95, 255, .18);
+  border: 1px solid rgba(255, 255, 255, .22);
+  position: relative;
+  overflow: hidden;
+}
+
+.tcs-titlebar::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, .22), transparent 55%);
+  transform: rotate(10deg);
+}
+
+.tcs-titlebar h1 {
+  position: relative;
+  margin: 0;
+  text-align: center;
+  color: #ffffff;
+  font-size: 24px;
+  letter-spacing: 0.7px;
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+/* =========================================================
+   Aviso (notice)
+========================================================= */
+.tcs-notice {
+  margin-top: 14px;
+  background: linear-gradient(180deg, #FFFFFF, #F3FAFF);
+  border: 1px solid rgba(51, 182, 255, .35);
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  box-shadow: var(--tcs-shadow2);
+}
+
+.tcs-notice__icon {
+  font-size: 18px;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.tcs-notice__text {
+  font-size: 14.5px;
+  color: var(--tcs-ink);
+  font-weight: 600;
+}
+
+/* =========================================================
+   Acordeón
+========================================================= */
+.tcs-accordion {
+  margin-top: 16px;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--tcs-line);
+  background: linear-gradient(180deg, #ffffff, #F6FAFF);
+  box-shadow: var(--tcs-shadow2);
+}
+
+.tcs-accordion+.tcs-accordion {
+  margin-top: 12px;
+}
+
+.tcs-accordion__summary {
+  list-style: none;
+  cursor: pointer;
+  user-select: none;
+  padding: 16px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  font-weight: 900;
+  color: var(--tcs-navy);
+  letter-spacing: 0.2px;
+
+  background:
+    linear-gradient(90deg, rgba(51, 182, 255, .18), rgba(255, 255, 255, 0));
+}
+
+.tcs-accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+.tcs-accordion__summary::after {
+  content: "▶";
+  font-size: 16px;
+  color: var(--tcs-navy);
+  opacity: 0.75;
+  transform: translateY(1px);
+  transition: transform 0.15s ease;
+}
+
+.tcs-accordion[open] .tcs-accordion__summary::after {
+  transform: rotate(90deg) translateX(1px);
+}
+
+.tcs-accordion__content {
+  padding: 16px;
+  border-top: 1px solid rgba(7, 20, 40, .08);
+  background: #ffffff;
+}
+
+/* =========================================================
+   Forms
+========================================================= */
+.tcs-shell .form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+}
+
+.tcs-shell label {
+  font-weight: 400;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--tcs-ink);
+}
+
+.tcs-shell input,
+.tcs-shell select,
+.tcs-shell textarea {
+  width: 100%;
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(7, 20, 40, .18);
+  font-size: 14px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.12s ease;
+  background: #fff;
+  color: var(--tcs-ink);
+}
+
+.tcs-shell textarea {
+  resize: vertical;
+  min-height: 84px;
+}
+
+.tcs-shell input:focus,
+.tcs-shell select:focus,
+.tcs-shell textarea:focus {
+  border-color: rgba(11, 95, 255, .75);
+  box-shadow: 0 0 0 4px rgba(51, 182, 255, .22);
+  outline: none;
+}
+
+/* Hidden */
+.tcs-shell .hidden {
+  display: none;
+}
+
+/* =========================================================
+   Mensajes
+========================================================= */
+.tcs-shell .mensaje {
+  background: linear-gradient(180deg, #FFFFFF, #F3FAFF);
+  border-left: 5px solid var(--tcs-blue-2);
+  padding: 16px;
+  margin: 12px 0 18px;
+  border-radius: 14px;
+  font-size: 14px;
+  color: var(--tcs-ink);
+  font-weight: 650;
+  box-shadow: 0 10px 18px rgba(7, 20, 40, .06);
+}
+
+.tcs-shell .tcs-warning {
+  background: linear-gradient(180deg, #FFFFFF, #F0F8FF);
+  border-left-color: #00A3FF;
+  color: #0B2A45;
+}
+
+.tcs-shell .mensaje-success {
+  background: linear-gradient(180deg, #ECFEFF, #E6F7FF);
+  border-left: 5px solid #0EA5E9;
+  padding: 14px;
+  margin-top: 10px;
+  border-radius: 14px;
+  font-size: 14px;
+  color: #075985;
+  font-weight: 400;
+  box-shadow: 0 10px 18px rgba(7, 20, 40, .06);
+}
+
+/* =========================================================
+   Botonera inferior
+========================================================= */
+.tcs-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.tcs-btn {
+  border: none;
+  border-radius: 16px;
+  padding: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 16px;
+  box-shadow: 0 12px 20px rgba(7, 20, 40, .12);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+
+.tcs-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 26px rgba(7, 20, 40, .16);
+}
+
+.tcs-btn--back {
+  background: linear-gradient(180deg, #ffffff, #F3F7FF);
+  color: var(--tcs-navy);
+  border: 1px solid rgba(7, 20, 40, .14);
+}
+
+.tcs-btn--send {
+  background: linear-gradient(135deg, var(--tcs-blue-1), var(--tcs-blue-2));
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, .22);
+}
+
+.tcs-btn__icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.tcs-btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+  filter: grayscale(0.4);
+}
+
+/* =========================================================
+   Q blocks (checkbox items)
+========================================================= */
+.tcs-shell .q-block {
+  border: 1px solid rgba(7, 20, 40, .10);
+  border-radius: 16px;
+  padding: 14px;
+  margin-bottom: 14px;
+  background:
+    linear-gradient(180deg, #FFFFFF, #F7FBFF);
+  box-shadow: 0 10px 18px rgba(7, 20, 40, .06);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.tcs-shell .q-block:hover {
+  transform: translateY(-1px);
+  border-color: rgba(51, 182, 255, .45);
+  box-shadow: 0 14px 22px rgba(7, 20, 40, .10);
+}
+
+.tcs-shell .q-block label {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  cursor: pointer;
+  margin-bottom: 0;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--tcs-ink);
+}
+
+.tcs-shell .q-check {
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--tcs-blue-1);
+}
+
+/* =========================================================
+   Selector modo (cards)
+========================================================= */
+.tcs-shell .mode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.tcs-shell .mode-card {
+  border: 1px solid rgba(7, 20, 40, .12);
+  background:
+    linear-gradient(180deg, #FFFFFF, #F4FAFF);
+  border-radius: 18px;
+  padding: 16px;
+  cursor: pointer;
+  text-align: left;
+  box-shadow: 0 12px 20px rgba(7, 20, 40, .10);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tcs-shell .mode-card::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle at 30% 30%, rgba(51, 182, 255, .20), transparent 60%);
+  transform: rotate(8deg);
+  pointer-events: none;
+}
+
+.tcs-shell .mode-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 26px rgba(7, 20, 40, .14);
+  border-color: rgba(51, 182, 255, .45);
+}
+
+.tcs-shell .mode-card__title {
+  position: relative;
+  font-weight: 950;
+  font-size: 18px;
+  color: var(--tcs-navy);
+  margin-bottom: 4px;
+}
+
+.tcs-shell .mode-card__desc {
+  position: relative;
+  font-size: 13.5px;
+  color: var(--tcs-muted);
+  font-weight: 650;
+}
+
+.tcs-shell .mode-card[aria-pressed="true"] {
+  border-color: rgba(255, 255, 255, .35);
+  background: linear-gradient(135deg, rgba(11, 95, 255, 1), rgba(51, 182, 255, 1));
+  box-shadow: 0 18px 34px rgba(11, 95, 255, .22);
+}
+
+.tcs-shell .mode-card[aria-pressed="true"] .mode-card__title,
+.tcs-shell .mode-card[aria-pressed="true"] .mode-card__desc {
+  color: #ffffff;
+}
+
+/* =========================================================
+   Botón link (si lo usas)
+========================================================= */
+.tcs-linkbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  text-decoration: none;
+  font-weight: 900;
+  font-size: 14px;
+
+  border: 1px solid rgba(7, 20, 40, .12);
+  background: linear-gradient(180deg, #FFFFFF, #F3F7FF);
+  color: var(--tcs-navy);
+
+  box-shadow: 0 10px 18px rgba(7, 20, 40, .10);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.tcs-linkbtn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(51, 182, 255, .45);
+  box-shadow: 0 14px 22px rgba(7, 20, 40, .14);
+}
+
+/* =========================================================
+   Responsive
+========================================================= */
+@media (max-width: 720px) {
+  .tcs-card {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .tcs-titlebar h1 {
+    font-size: 20px;
+  }
+
+  .tcs-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .tcs-shell .mode-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   SI / NO para preguntas
+========================= */
+.q-yn {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.q-text {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--tcs-ink);
+  font-weight: 400;
+}
+
+.yn-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.yn-option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 2px solid #d1d5db;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.yn-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.yn-option span {
+  font-size: 14px;
+  letter-spacing: 0.3px;
+}
+
+.yn-option--si {
+  background: #ecfdf5;
+  color: #166534;
+  border-color: #86efac;
+}
+
+.yn-option--no {
+  background: #fef2f2;
+  color: #991b1b;
+  border-color: #fca5a5;
+}
+
+.yn-option--si:hover {
+  background: #dcfce7;
+  transform: translateY(-1px);
+}
+
+.yn-option--no:hover {
+  background: #fee2e2;
+  transform: translateY(-1px);
+}
+
+.yn-option--si:has(input:checked) {
+  background: #22c55e;
+  color: #ffffff;
+  border-color: #22c55e;
+  box-shadow: 0 8px 18px rgba(34, 197, 94, 0.22);
+}
+
+.yn-option--no:has(input:checked) {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  box-shadow: 0 8px 18px rgba(239, 68, 68, 0.22);
+}
+
+.yn-option input:checked+span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.yn-option--si input:checked+span::before {
+  content: "✔";
+  font-size: 13px;
+}
+
+.yn-option--no input:checked+span::before {
+  content: "✖";
+  font-size: 13px;
+}
+
+.q-block.q-yn {
+  padding: 18px 20px;
+}
+
+/* =========================================================
+   Bloques repetibles: grupo resolutor / personal asignado
+========================================================= */
+.tcs-shell .repeatable-wrap {
+  margin-top: 10px;
+}
+
+.tcs-shell .repeatable-title {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--tcs-navy);
+}
+
+.tcs-shell .repeatable {
+  border: 1px solid rgba(7, 20, 40, .10);
+  border-radius: 16px;
+  padding: 16px;
+  background: linear-gradient(180deg, #FFFFFF, #F7FBFF);
+  box-shadow: 0 10px 18px rgba(7, 20, 40, .06);
+}
+
+.tcs-shell .repeatable + .repeatable {
+  margin-top: 14px;
+}
+
+.tcs-shell .row-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 56px;
+  gap: 14px;
+  align-items: center;
+}
+
+.tcs-shell .row-grid.header {
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+
+.tcs-shell .row-grid.header div {
+  font-size: 14px;
+  font-weight: 900;
+  color: var(--tcs-navy);
+}
+
+.tcs-shell .row-grid.row {
+  margin-bottom: 12px;
+  padding: 14px;
+  border: 1px solid rgba(51, 182, 255, .20);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #FFFFFF, #F3FAFF);
+  box-shadow: 0 8px 16px rgba(7, 20, 40, .05);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.tcs-shell .row-grid.row:hover {
+  transform: translateY(-1px);
+  border-color: rgba(51, 182, 255, .38);
+  box-shadow: 0 12px 20px rgba(7, 20, 40, .08);
+}
+
+.tcs-shell .repeatable input[type="text"] {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(7, 20, 40, .16);
+  background: #ffffff;
+  color: var(--tcs-ink);
+  font-size: 14px;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.12s ease;
+}
+
+.tcs-shell .repeatable input[type="text"]::placeholder {
+  color: #6b7280;
+}
+
+.tcs-shell .repeatable input[type="text"]:focus {
+  border-color: rgba(11, 95, 255, .75);
+  box-shadow: 0 0 0 4px rgba(51, 182, 255, .22);
+  outline: none;
+}
+
+/* Botón eliminar fila */
+.tcs-shell .btn-danger.remove-row {
+  width: 56px;
+  height: 46px;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: #ffffff;
+  background: linear-gradient(135deg, var(--tcs-navy), #0B2A45);
+  box-shadow: 0 10px 18px rgba(7, 20, 40, .14);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+
+.tcs-shell .btn-danger.remove-row:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 22px rgba(7, 20, 40, .18);
+  filter: brightness(1.05);
+}
+
+/* Botón agregar fila */
+.tcs-shell .btn-secondary.add-row-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4px;
+  padding: 11px 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(7, 20, 40, .14);
+  background: linear-gradient(180deg, #ffffff, #F3F7FF);
+  color: var(--tcs-navy);
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  box-shadow: 0 10px 18px rgba(7, 20, 40, .10);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.tcs-shell .btn-secondary.add-row-btn:hover {
+  transform: translateY(-1px);
+  border-color: rgba(51, 182, 255, .45);
+  box-shadow: 0 14px 22px rgba(7, 20, 40, .14);
+}
+
+/* Separación entre bloques */
+.tcs-shell #bloqueCertificacionDetalle,
+.tcs-shell #bloqueEjecucionDetalle {
+  margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .tcs-shell .row-grid,
+  .tcs-shell .row-grid.row {
+    grid-template-columns: 1fr;
+  }
+
+  .tcs-shell .row-grid.header {
+    display: none;
+  }
+
+  .tcs-shell .btn-danger.remove-row {
+    width: 100%;
+  }
+
+  .tcs-shell .btn-secondary.add-row-btn {
+    width: 100%;
+  }
+}
+
+.tcs-btn--next{
+background:linear-gradient(135deg,var(--tcs-blue-1),var(--tcs-blue-2));
+color:white;
+font-weight:800;
+padding:12px 20px;
+border-radius:14px;
+}
+
+.hidden {
+    display: none !important;
+}
